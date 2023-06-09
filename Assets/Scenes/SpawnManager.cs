@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        
+
         if (instance == null)
         {
             instance = this;
@@ -28,7 +27,7 @@ public class SpawnManager : MonoBehaviour
     //    {
     //        yield return new WaitForSeconds(2f);
 
-            
+
     //    }
     //}
 
@@ -62,19 +61,28 @@ public class SpawnManager : MonoBehaviour
 
     internal void Spawn()
     {
+        Game.Instance.CurrentCountOfCoins++;
         // Проверяем, что список префабов монет не пустой
         if (coinsList.Count == 0)
         {
             Debug.LogError("Coins List is empty!");
-           
+
+        }    // Проверяем, что список префабов монет не пустой
+        if (Game.Instance.CurrentCountOfCoins == Game.Instance.countOfCoins)
+        {
+            return;
+
         }
 
         // Генерируем случайный индекс для выбора монеты из списка
         int randomIndex = GetUniqueRandomIndex();
+        if (Game.Instance.CurrentCountOfCoins != Game.Instance.countOfCoins)
+        {
+            // Создаем монету на заданной позиции
+            GameObject coin = Instantiate(coinsList[randomIndex], spawnPoint.position, Quaternion.identity);
+        }
 
-        // Создаем монету на заданной позиции
-        GameObject coin = Instantiate(coinsList[randomIndex], spawnPoint.position, Quaternion.identity);
-        Game.Instance.CurrentCountOfCoins++;
+
         // Устанавливаем выбранную монету из списка
         //coin.GetComponent<Coin>().CoinCost = coinsList[randomIndex].GetComponent<Coin>().CoinCost;
     }

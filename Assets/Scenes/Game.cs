@@ -5,27 +5,32 @@ using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
-   public SkeletonAnimation spine;
+    //аниматор копилки
+    public Animator animator;
+
+    public SkeletonAnimation spine;
     //singletone   
     public static Game Instance;
     //очередь монеток
-    public Queue<Coin> Coins ;
+    public Queue<Coin> Coins;
     //подсчет правильных ответов
     int rigthAnswers = 0;
     //панель  с победой
     public GameObject win;
     //панель  с надписью поробуй ещё
     public GameObject lose;
+    //панель  с надписью поробуй ещё
+    public GameObject coinPanel;
     //количество попыток
     private int points = 4;
     //Всего монет
     public int countOfCoins = 4;
     public int CurrentCountOfCoins = 0;
-
+    bool shaked = false;
     //SkeletonAnimation skeletonAnimation;
     //Spine.AnimationState animationState;
     //animationState.SetAnimation(trackIndex, "walk", true);
-     
+
 
     void Start()
     {
@@ -41,15 +46,22 @@ public class Game : MonoBehaviour
 
     }
 
-     
+
     void Update()
     {
+        if (CurrentCountOfCoins == countOfCoins && !shaked)
+        {
+            animator.SetTrigger("PigIsFull");
+
+            coinPanel.SetActive(true);
+            shaked = true;
+        }
         if (rigthAnswers >= countOfCoins)
         {
             spine.AnimationName = "win";
             win.SetActive(true);
         }
-        if (rigthAnswers < countOfCoins && points == 0)
+        if (rigthAnswers < countOfCoins && points <= 0)
         {
             spine.AnimationName = "wrong";
             lose.SetActive(true);
