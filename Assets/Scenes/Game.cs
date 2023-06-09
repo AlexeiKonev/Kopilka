@@ -1,10 +1,11 @@
+using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
-
+   public SkeletonAnimation spine;
     //singletone   
     public static Game Instance;
     //очередь монеток
@@ -20,10 +21,15 @@ public class Game : MonoBehaviour
     //Всего монет
     public int countOfCoins = 4;
     public int CurrentCountOfCoins = 0;
-    
+
+    //SkeletonAnimation skeletonAnimation;
+    //Spine.AnimationState animationState;
+    //animationState.SetAnimation(trackIndex, "walk", true);
+     
 
     void Start()
     {
+
         Coins = new Queue<Coin>();
         win.SetActive(false);
         lose.SetActive(false);
@@ -40,10 +46,12 @@ public class Game : MonoBehaviour
     {
         if (rigthAnswers >= countOfCoins)
         {
+            spine.AnimationName = "win";
             win.SetActive(true);
         }
         if (rigthAnswers < countOfCoins && points == 0)
         {
+            spine.AnimationName = "wrong";
             lose.SetActive(true);
         }
     }
